@@ -1,0 +1,18 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '11.0'
+
+target 'Swift.IOS.Example' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for Swift.IOS.Example
+
+    # UI 框架(MyLayout swift版本)
+    pod 'TangramKit', '~> 1.4.0'
+
+    # 响应式编程库
+    pod 'ReactiveCocoa', '~> 10.0.0'
+    
+    # HTTP 以及 HTTP image
+    pod 'AlamofireImage', '~> 4.0.0-beta.5'
+end
