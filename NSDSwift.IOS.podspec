@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
 
   s.name         = "NSDSwift.IOS"
   s.version      = "0.0.1"
-  s.summary      = "自用，基于Swfit 5.0、在IOS下的拓展，帮助快速开发，将常用的方法进行封装，也包含一些自定义控件"
+  s.summary      = "基于Swfit 5.0、在IOS下的拓展"
 
   # This description is used to generate tags and improve search results.
   #   * Think: What does it do? Why did you write it? What is the focus?
@@ -25,7 +25,7 @@ Pod::Spec.new do |s|
   #   * Write the description between the DESC delimiters below.
   #   * Finally, don't worry about the indent, CocoaPods strips it!
   s.description  = <<-DESC
-                  他人源码，放到pod上方便集成
+                  自用，帮助快速开发，将常用的方法进行封装，也包含一些自定义控件
                    DESC
 
   s.homepage     = "https://github.com/NeeSDev"
