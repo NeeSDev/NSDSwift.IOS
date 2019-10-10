@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "NSDSwift.IOS"
-  s.version      = "0.0.1"
+  s.version      = "1.0.0"
   s.summary      = "基于Swfit 5.0、在IOS下的拓展"
 
   # This description is used to generate tags and improve search results.
