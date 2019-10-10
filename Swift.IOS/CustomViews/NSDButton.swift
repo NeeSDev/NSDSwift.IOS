@@ -9,52 +9,31 @@
 import UIKit
 import TangramKit
 
+/// 自定义按钮
+/// 使用block的方式，根据回调state参数，开放式进行各状态下的操作
 class NSDButton: UIView {
     
+    /// root图层，包含背景图以及内容两个图层
     let rootLayout = TGRelativeLayout()
-    let backgroundImageView = UIImageView()
+    
+    /// 内容图层
     let contentLayout: TGLinearLayout
-
+    
+    /// 背景图
+    let backgroundImageView = UIImageView()
+    
+    /// image
     let imageView = UIImageView()
-    let textLabel = UILabel()
-    let subTextLabel = UILabel()
     
-    private var state: UIControl.State = .normal
+    /// title标签
+    private let textLabel = UILabel()
     
-    private var subTextColor: UIColor?
-
-    private var normalImage: UIImage?
-    private var normalTextColor: UIColor = .white
-    private var normalBackgroundImage: UIImage?
-    private var normalBackgroundColor: UIColor = .clear
+    /// 子标签
+    private let subTextLabel = UILabel()
     
-    private var highlightedImage: UIImage?
-    private var highlightedTextColor: UIColor?
-    private var highlightedBackgroundImage: UIImage?
-    private var highlightedBackgroundColor: UIColor?
-    
-    private var disabledImage: UIImage?
-    private var disabledTextColor: UIColor?
-    private var disabledBackgroundImage: UIImage?
-    private var disabledBackgroundColor: UIColor?
-    
-    private var selectedImage: UIImage?
-    private var selectedTextColor: UIColor?
-    private var selectedBackgroundImage: UIImage?
-    private var selectedBackgroundColor: UIColor?
-    
-    var touchUpInsideBlock: (NSDButton)->Void = {_ in }
-    var touchCancelBlock: (NSDButton)->Void = {_ in }
-    var touchDownBlock: (NSDButton)->Void = {_ in }
-    
-    private weak  var touchDownTarget:NSObjectProtocol! = nil
-    private weak  var touchUpInsideTarget:NSObjectProtocol! = nil
-    private weak  var touchCancelTarget:NSObjectProtocol! = nil
-    private var touchDownAction:Selector! = nil
-    private var touchUpInsideAction:Selector! = nil
-    private var touchCancelAction:Selector! = nil
-    
+    /// 是否选中
     private var _isSelected: Bool = false
+    /// 是否选中
     public var isSelected: Bool {
         get {
             return _isSelected
@@ -62,17 +41,17 @@ class NSDButton: UIView {
         
         set {
             _isSelected = newValue
-            
-            if newValue {
-                setState(to: .selected)
-            }
-            else {
-                setState(to: .normal)
+            if isDisabled {
+                return
+            }else if _isSelected {
+                state = .selected
             }
         }
     }
     
+    /// 是否禁用
     private var _isDisabled: Bool = false
+    /// 是否禁用
     public var isDisabled: Bool {
         get {
             return _isDisabled
@@ -80,19 +59,57 @@ class NSDButton: UIView {
         
         set {
             _isDisabled = newValue
-            
-            if newValue {
-                setState(to: .disabled)
-            }
-            else if isSelected {
-                setState(to: .selected)
-            }
-            else {
-                setState(to: .normal)
+            if _isDisabled {
+                state = .disabled
+            }else if _isSelected {
+                state = .selected
             }
         }
     }
     
+    /// 当前状态
+    private var _state: UIControl.State = .normal
+    /// 当前状态
+    public var state: UIControl.State {
+        get {
+            return _state
+        }
+        
+        set {
+           _state = newValue
+            stateListener(_state)
+        }
+    }
+    
+    /// 状态监听回调
+    private var stateListener: (UIControl.State) -> Void = {_ in }
+    
+    /// 点击抬起在范围内的回调
+    private var touchUpInsideBlock: (NSDButton)->Void = {_ in }
+    
+    /// 点击取消的回调
+    private var touchCancelBlock: (NSDButton)->Void = {_ in }
+    
+    /// 点击开始的回调
+    private var touchDownBlock: (NSDButton)->Void = {_ in }
+    
+    /// 点击抬起在范围内的Target
+    private weak var touchUpInsideTarget:NSObjectProtocol! = nil
+    /// 点击抬起在范围内的Action
+    private var touchUpInsideAction:Selector! = nil
+    
+    /// 点击取消的Target
+    private weak var touchCancelTarget:NSObjectProtocol! = nil
+    /// 点击取消的Action
+    private var touchCancelAction:Selector! = nil
+    
+    /// 点击开始的Target
+    private weak var touchDownTarget:NSObjectProtocol! = nil
+    /// 点击开始的Action
+    private var touchDownAction:Selector! = nil
+    
+    /// 初始化
+    /// - Parameter orientation: 布局方向
     init(_ orientation: TGOrientation) {
         contentLayout = TGLinearLayout(orientation)
         super.init(frame: .zero)
@@ -104,6 +121,7 @@ class NSDButton: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    /// 布局
     func uiMaker() {
         rootLayout.tg_margin(0)
         addSubview(rootLayout)
@@ -121,115 +139,39 @@ class NSDButton: UIView {
     }
 }
 
-//MARK:- =========================== state ===========================
+//MARK:- =========================== 添加响应事件 ===========================
 extension NSDButton {
-    func setState(to state: UIControl.State) {
-        //不可用状态时，无法修改
-        if self.state == .disabled {
+    
+    /// 添加状态监听block
+    /// - Parameter stateListener: 回调方法
+    func addStateListener(_ stateListener: @escaping (UIControl.State) -> Void) {
+        self.stateListener = stateListener
+    }
+    
+    /// 添加block回调
+    /// - Parameter controlEvents: 事件
+    /// - Parameter block: 回调
+    func addBlock(for controlEvents: UIControl.Event, block: @escaping (NSDButton)->Void) {
+        switch controlEvents {
+        case UIControl.Event.touchDown:
+            touchDownBlock = block
+            break
+        case UIControl.Event.touchUpInside:
+            touchUpInsideBlock = block
+            break
+        case UIControl.Event.touchCancel:
+            touchCancelBlock = block
+            break
+        default:
             return
         }
-        
-        switch state {
-        case .normal:
-            setState(with: normalImage, textColor: normalTextColor,backgroundImage:normalBackgroundImage, backgroundColor: normalBackgroundColor)
-        case .highlighted:
-            setState(with: highlightedImage, textColor: highlightedTextColor,backgroundImage:highlightedBackgroundImage, backgroundColor: highlightedBackgroundColor)
-        case .selected:
-            setState(with: selectedImage, textColor: selectedTextColor,backgroundImage:selectedBackgroundImage, backgroundColor: selectedBackgroundColor)
-        case .disabled:
-            setState(with: disabledImage, textColor: disabledTextColor,backgroundImage:disabledBackgroundImage, backgroundColor: disabledBackgroundColor)
-            
-        default:
-            break
-        }
-        
-        self.state = state
     }
     
-    private func setState(with image: UIImage?, textColor: UIColor?,backgroundImage: UIImage?, backgroundColor: UIColor?) {
-        if let image = image {
-            imageView.image = image
-            imageView.sizeToFit()
-        }
-        
-        if let textColor = textColor {
-            textLabel.textColor = textColor
-            subTextLabel.textColor = textColor
-        }
-        
-        if let subTextColor = subTextColor {
-            subTextLabel.textColor = subTextColor
-        }
-        
-        backgroundImageView.image = backgroundImage
-
-        contentLayout.backgroundColor = backgroundColor
-    }
-    
-    public func setNomalState(imageName: String? = nil, textColor: UIColor? = nil ,backgroundImageName: String? = nil, backgroundColor: UIColor? = nil) {
-        
-        if let imageName = imageName {
-            normalImage = UIImage(named: imageName)
-        }
-        
-        if let backgroundImageName = backgroundImageName {
-            normalBackgroundImage = UIImage(named: backgroundImageName)
-        }
-        
-        normalTextColor = textColor ?? .black
-        
-        normalBackgroundColor = backgroundColor ?? .clear
-        setState(to: state)
-    }
-    
-    public func setHighlightedState(imageName: String? = nil, textColor: UIColor? = nil, backgroundImageName: String? = nil , backgroundColor: UIColor? = nil) {
-        
-        if let imageName = imageName {
-            highlightedImage = UIImage(named: imageName)
-        }
-        
-        if let backgroundImageName = backgroundImageName {
-            highlightedBackgroundImage = UIImage(named: backgroundImageName)
-        }
-        
-        highlightedTextColor = textColor
-        
-        highlightedBackgroundColor = backgroundColor
-        setState(to: state)
-    }
-    
-    public func setSelectedState(imageName: String? = nil, textColor: UIColor? = nil,backgroundImageName: String? = nil , backgroundColor: UIColor? = nil) {
-        if let imageName = imageName {
-            selectedImage = UIImage(named: imageName)
-        }
-        if let backgroundImageName = backgroundImageName {
-            selectedBackgroundImage = UIImage(named: backgroundImageName)
-        }
-        selectedTextColor = textColor
-        selectedBackgroundColor = backgroundColor
-        setState(to: state)
-    }
-    
-    public func setDisabledState(imageName: String? = nil, textColor: UIColor? = nil,backgroundImageName: String? = nil , backgroundColor: UIColor? = nil) {
-        if let imageName = imageName {
-            disabledImage = UIImage(named: imageName)
-        }
-        if let backgroundImageName = backgroundImageName {
-            disabledBackgroundImage = UIImage(named: backgroundImageName)
-        }
-        disabledTextColor = textColor
-        disabledBackgroundColor = backgroundColor
-        setState(to: state)
-    }
-    
-    public func setStaticBackgroudImage(_ imageName :String) {
-        normalBackgroundImage = UIImage(named: imageName)
-        highlightedBackgroundImage = UIImage(named: imageName)
-        selectedBackgroundImage = UIImage(named: imageName)
-        disabledBackgroundImage = UIImage(named: imageName)
-    }
-    
-    public func addTarget(_ target: NSObjectProtocol?, action: Selector?, for controlEvents: UIControl.Event)
+    /// 添加target响应selector
+    /// - Parameter target: 响应对象
+    /// - Parameter action: 响应方法
+    /// - Parameter controlEvents: 事件
+    func addTarget(_ target: NSObjectProtocol?, action: Selector?, for controlEvents: UIControl.Event)
     {
         //just only support these events
         switch controlEvents {
@@ -251,68 +193,76 @@ extension NSDButton {
         
     }
 }
-
+ 
 extension NSDButton {
-    func setText(with text:String, font:UIFont) {
-        textLabel.text = text
-        textLabel.font = font
-        textLabel.sizeToFit()
-    }
-    
-    func setText(with text:String, font:UIFont, color:UIColor) {
-        textLabel.text = text
-        textLabel.font = font
-        textLabel.textColor = color
-        textLabel.sizeToFit()
+    /// 设置title
+    var text: String {
+        get {
+            return textLabel.text ?? ""
+        }
         
-        normalTextColor = color
+        set {
+            textLabel.text = newValue
+            textLabel.sizeToFit()
+        }
     }
     
-    func setText(with text:String) {
-        textLabel.text = text
-        textLabel.sizeToFit()
-    }
-    
-    func setTextFont(with font:UIFont) {
-        textLabel.font = font
-        textLabel.sizeToFit()
-    }
-    
-    func setTextColor(with color:UIColor) {
-        textLabel.textColor = color
+    /// 设置title字体
+    var font: UIFont {
+        get {
+            return textLabel.font
+        }
         
-        normalTextColor = color
+        set {
+            textLabel.font = newValue
+            textLabel.sizeToFit()
+        }
     }
     
-    func setSubText(with text:String, font:UIFont) {
-        subTextLabel.text = text
-        subTextLabel.font = font
-        subTextLabel.sizeToFit()
-    }
-    
-    func setSubText(with text:String, font:UIFont, color:UIColor) {
-        subTextLabel.text = text
-        subTextLabel.font = font
-        subTextLabel.textColor = color
-        subTextLabel.sizeToFit()
+    /// 设置title字体颜色
+    var textColor: UIColor {
+        get {
+            return textLabel.textColor
+        }
         
-        subTextColor = color
+        set {
+            textLabel.textColor = newValue
+        }
     }
     
-    func setSubText(with text:String) {
-        subTextLabel.text = text
-        subTextLabel.sizeToFit()
-    }
-    
-    func setSubTextFont(with font:UIFont) {
-        subTextLabel.font = font
-        subTextLabel.sizeToFit()
-    }
-    
-    func setSubTextColor(with color:UIColor) {
-        textLabel.textColor = color
+    /// 设置sub title
+    var subText: String {
+        get {
+            return subTextLabel.text ?? ""
+        }
         
-        subTextColor = color
+        set {
+            subTextLabel.text = newValue
+            subTextLabel.sizeToFit()
+        }
+    }
+    
+    /// 设置sub title字体
+    var subFont: UIFont {
+        get {
+            return subTextLabel.font
+        }
+        
+        set {
+            subTextLabel.font = newValue
+            subTextLabel.sizeToFit()
+        }
+    }
+    
+    /// 设置sub title字体颜色
+    var subTextColor: UIColor {
+        get {
+            return subTextLabel.textColor
+        }
+        
+        set {
+            subTextLabel.textColor = newValue
+        }
     }
 }
 
@@ -327,7 +277,7 @@ extension NSDButton {
         touchDownBlock(self)
         _ = touchDownTarget?.perform(touchDownAction, with: self)
 
-        setState(to: .highlighted)
+        state = .highlighted
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -343,10 +293,10 @@ extension NSDButton {
             }
             
             if point(inside: touch.location(in: self), with: event) {
-                setState(to: .normal)
+                state = .normal
             }
             else {
-                setState(to: .highlighted)
+                state = .highlighted
             }
         }
     }
@@ -358,7 +308,7 @@ extension NSDButton {
         }
         
         if state != .normal {
-            setState(to: .normal)
+            state = .normal
         }
         
         guard let touch = touches.first else {

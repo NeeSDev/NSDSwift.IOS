@@ -139,11 +139,24 @@ private extension NSDSegementView {
         for (index,title) in titles.enumerated() {
             let button = NSDButton(.vert)
             button.addTarget(self, action: #selector(segementClick), for: .touchUpInside)
-            button.setText(with: title, font: .systemFont(ofSize: 15))
+            button.text = title
+            button.font = .systemFont(ofSize: 15)
+            
+            button.addStateListener {[weak self] (state) in
+                switch state {
+                case .normal:
+                    button.textColor = self?.normalColor ?? .black
+                case .selected:
+                    button.textColor = self?.selectedColor ?? .black
+                default:
+                    return
+                }
+            }
             
             if subTitles.count > 0 {
                 button.rootLayout.tg_vspace = 3
-                button.setSubText(with: subTitles[index],font: .systemFont(ofSize: 13))
+                button.subText = subTitles[index]
+                button.subFont = .systemFont(ofSize: 13)
             }
             
             if titleWidthOffset < 0 , titleWidth < 0 {
@@ -184,8 +197,8 @@ private extension NSDSegementView {
     
     func resetTitles() {
         for (index,button) in buttons.enumerated() {
-            button.setText(with: titles[index])
-            button.setSubText(with: subTitles[index])
+            button.text = titles[index]
+            button.subText = subTitles[index]
         }
     }
     
@@ -257,8 +270,8 @@ extension NSDSegementView {
         selectedColor = selected
         
         for button in buttons {
-            button.setNomalState(textColor: normal)
-            button.setSelectedState(textColor: selected)
+            let state = button.state
+            button.state = state
         }
     }
     
@@ -302,8 +315,8 @@ extension NSDSegementView {
     
     func setFont(_ font: UIFont, subFont: UIFont = UIFont.systemFont(ofSize: 13)) {
         for button in buttons {
-            button.setTextFont(with: font)
-            button.setSubTextFont(with: subFont)
+            button.font = font
+            button.subFont = subFont
         }
     }
 
