@@ -10,24 +10,25 @@ import UIKit
 import ReactiveCocoa
 import AlamofireImage
 
-extension NSD where Base: UIView {
+extension UIView: NeeSDevExtended {}
+extension NeeSDevExtension where ExtendedType: UIView {
     public func setBoundsStyle(cornerRadius:  CGFloat, borderWidth:  CGFloat, borderColor: UIColor) {
-        baseObj.layer.masksToBounds = true
-        baseObj.layer.cornerRadius = cornerRadius
-        baseObj.layer.borderColor = borderColor.cgColor
-        baseObj.layer.borderWidth = borderWidth
+        type.layer.masksToBounds = true
+        type.layer.cornerRadius = cornerRadius
+        type.layer.borderColor = borderColor.cgColor
+        type.layer.borderWidth = borderWidth
     }
     
     public func setCornerRadius(_ cornerRadius:  CGFloat) {
-        baseObj.layer.masksToBounds = true
-        baseObj.layer.cornerRadius = cornerRadius
+        type.layer.masksToBounds = true
+        type.layer.cornerRadius = cornerRadius
     }
 }
 
 //MARK: - =========================== label ===========================
-extension NSD where Base: UILabel {
+extension NeeSDevExtension where ExtendedType: UILabel {
     public static func get(_ font:  UIFont, color:  UIColor, alignment: NSTextAlignment) -> UILabel {
-        let label = Base()
+        let label = ExtendedType()
         label.font = font
         label.textColor = color
         label.textAlignment = alignment
@@ -35,7 +36,7 @@ extension NSD where Base: UILabel {
     }
     
     public static func get(_ text: String?, font:  UIFont, color:  UIColor, alignment: NSTextAlignment) -> UILabel {
-        let label = Base.nsd.get(font, color:  color, alignment:  alignment)
+        let label = ExtendedType.nsd.get(font, color:  color, alignment:  alignment)
         label.text = text
         //设置了文字才可以自动适配size，不影响后面添加自动适配
         label.sizeToFit()
@@ -44,32 +45,32 @@ extension NSD where Base: UILabel {
 }
 
 //MARK: - =========================== button ===========================
-extension NSD where Base: UIButton {
+extension NeeSDevExtension where ExtendedType: UIButton {
     
     //MARK: - =========================== quick getter ===========================
     public static func getSelImage(_ imageName: String, target:  Any?, action:  Selector) -> UIButton {
-        let btn = Base.init(type: .custom)
+        let btn = ExtendedType.init(type: .custom)
         btn.nsd.setNormalImage(imageName)
         btn.addTarget(target, action:  action, for: .touchUpInside)
         return btn
     }
     
     public static func getSelBackgroundImage(_ imageName: String, target:  Any?, action:  Selector) -> UIButton {
-        let btn = Base.init(type: .custom)
+        let btn = ExtendedType.init(type: .custom)
         btn.nsd.setNormalBackgroundImage(imageName)
         btn.addTarget(target, action:  action, for: .touchUpInside)
         return btn
     }
     
     public static func getSelBackgroundColor(_ backgroundColor: UIColor, target:  Any?, action:  Selector) -> UIButton {
-        let btn = Base.init(type: .custom)
+        let btn = ExtendedType.init(type: .custom)
         btn.backgroundColor = backgroundColor
         btn.addTarget(target, action:  action, for: .touchUpInside)
         return btn
     }
     
     public static func getBlockImage(_ imageName: String, action:  @escaping (UIButton) -> Void) -> UIButton {
-        let btn = Base.init(type: .custom)
+        let btn = ExtendedType.init(type: .custom)
         btn.nsd.setNormalImage(imageName)
         btn.reactive.controlEvents(.touchUpInside).observeValues { (button) in
             action(button)
@@ -78,7 +79,7 @@ extension NSD where Base: UIButton {
     }
     
     public static func getBlockBackgroundImage(_ imageName: String, action:  @escaping (UIButton) -> Void) -> UIButton {
-        let btn = Base.init(type: .custom)
+        let btn = ExtendedType.init(type: .custom)
         btn.nsd.setNormalBackgroundImage(imageName)
         btn.reactive.controlEvents(.touchUpInside).observeValues { (button) in
             action(button)
@@ -87,7 +88,7 @@ extension NSD where Base: UIButton {
     }
     
     public static func getBlockBackgroundColor(_ backgroundColor: UIColor, action:  @escaping (UIButton) -> Void) -> UIButton {
-        let btn = Base.init(type: .custom)
+        let btn = ExtendedType.init(type: .custom)
         btn.backgroundColor = backgroundColor
         btn.reactive.controlEvents(.touchUpInside).observeValues { (button) in
             action(button)
@@ -98,80 +99,69 @@ extension NSD where Base: UIButton {
     //MARK: - =========================== quick setter ===========================
     //MARK:  ========= image setter =========
     public func setNormalImage(_ imageName: String) {
-        baseObj.setImage(UIImage(named:  imageName), for: .normal)
+        type.setImage(UIImage(named:  imageName), for: .normal)
     }
     
     public func setSelectedImage(_ imageName: String) {
-        baseObj.setImage(UIImage(named:  imageName), for: .selected)
+        type.setImage(UIImage(named:  imageName), for: .selected)
     }
     
     public func setHighlightImage(_ imageName: String) {
-        baseObj.setImage(UIImage(named:  imageName), for: .highlighted)
+        type.setImage(UIImage(named:  imageName), for: .highlighted)
     }
     
     //MARK:  ========= background image setter =========
     public func setNormalBackgroundImage(_ imageName: String) {
-        baseObj.setBackgroundImage(UIImage(named:  imageName), for: .normal)
+        type.setBackgroundImage(UIImage(named:  imageName), for: .normal)
     }
     
     public func setSelectedBackgroundImage(_ imageName: String) {
-        baseObj.setBackgroundImage(UIImage(named:  imageName), for: .selected)
+        type.setBackgroundImage(UIImage(named:  imageName), for: .selected)
     }
     
     public func setHighlightBackgroundImage(_ imageName: String) {
-        baseObj.setBackgroundImage(UIImage(named:  imageName), for: .highlighted)
+        type.setBackgroundImage(UIImage(named:  imageName), for: .highlighted)
     }
     
     //MARK:  ========= title stter =========
     public func setNormalTitle(_ title: String?) {
-        baseObj.setTitle(title, for: .normal)
+        type.setTitle(title, for: .normal)
     }
     
     public func setNormalTitle(_ title: String?, color: UIColor) {
-        baseObj.setTitle(title, for: .normal)
-        baseObj.setTitleColor(color, for: .normal)
+        type.setTitle(title, for: .normal)
+        type.setTitleColor(color, for: .normal)
     }
     
     public func setNormalTitle(_ title: String?, font: UIFont, color: UIColor) {
-        baseObj.setTitle(title, for: .normal)
-        baseObj.setTitleColor(color, for: .normal)
-        baseObj.titleLabel?.font = font
+        type.setTitle(title, for: .normal)
+        type.setTitleColor(color, for: .normal)
+        type.titleLabel?.font = font
     }
     
     public func setSelectedTitle(_ title: String?, color: UIColor) {
-        baseObj.setTitle(title, for: .selected)
-        baseObj.setTitleColor(color, for: .selected)
+        type.setTitle(title, for: .selected)
+        type.setTitleColor(color, for: .selected)
     }
     
     public func setSelectedTitle(_ title: String?) {
-        baseObj.setTitle(title, for: .selected)
+        type.setTitle(title, for: .selected)
     }
     
     public func setTitleColor(normal: UIColor, selected: UIColor) {
-        baseObj.setTitleColor(normal, for: .normal)
-        baseObj.setTitleColor(selected, for: .selected)
+        type.setTitleColor(normal, for: .normal)
+        type.setTitleColor(selected, for: .selected)
     }
 }
 
-extension NSD where Base: UITextField {
+extension NeeSDevExtension where ExtendedType: UITextField {
     public func setPlaceholderText(with text:String, font: UIFont, color: UIColor) {
-        baseObj.attributedPlaceholder = NSAttributedString(string: text, attributes: [.foregroundColor: color,.font: font])
-    }
-}
-
-extension NSD where Base: UITableView {
-    public static func getPlain(target: UITableViewDataSource & UITableViewDelegate) -> UITableView {
-        let view = UITableView(frame: .zero, style: .plain)
-        view.delegate = target
-        view.dataSource = target
-        view.backgroundColor = .clear
-        view.separatorStyle = .none
-        return view
+        type.attributedPlaceholder = NSAttributedString(string: text, attributes: [.foregroundColor: color,.font: font])
     }
 }
 
 //MARK:- =========================== UIImageView ===========================
-extension NSD where Base: UIImageView {
+extension NeeSDevExtension where ExtendedType: UIImageView {
     
     func setImage(urlString: String?, placeholderImageName: String) {
         
@@ -179,16 +169,16 @@ extension NSD where Base: UIImageView {
         //如果 空 string
         guard let imageURLString = urlString , imageURLString != "" else {
             //尝试设置默认图
-            baseObj.image = placeholaderImage
+            type.image = placeholaderImage
             return
         }
         
         //如果转 空 URL
         guard let imageURL = URL(string: imageURLString) else {
-            baseObj.image = placeholaderImage
+            type.image = placeholaderImage
             return
         }
-        baseObj.af_setImage(withURL: imageURL, placeholderImage: placeholaderImage)
+        type.af.setImage(withURL: imageURL, placeholderImage: placeholaderImage)
     }
     
     func setImage(imageName: String?) {
@@ -196,7 +186,7 @@ extension NSD where Base: UIImageView {
             return
         }
         
-        baseObj.image = UIImage(named: imageName)
+        type.image = UIImage(named: imageName)
     }
 }
 
@@ -208,12 +198,12 @@ public enum NSDCornerType {
     case none
 };
 
-extension NSD where Base: UITableViewCell {
+extension NeeSDevExtension where ExtendedType: UITableViewCell {
     public func setCellCornerStyle(cornerRadius: CGFloat,color: UIColor = .white,cornerType: NSDCornerType = .all,edgeInsets: UIEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)) {
-        baseObj.backgroundColor = .clear
+        type.backgroundColor = .clear
         let layer = CAShapeLayer()
         let pathRef = CGMutablePath()
-        let bounds = CGRect(x: edgeInsets.left, y: edgeInsets.top, width: baseObj.bounds.width - edgeInsets.left - edgeInsets.right, height: baseObj.bounds.height - edgeInsets.top - edgeInsets.bottom )
+        let bounds = CGRect(x: edgeInsets.left, y: edgeInsets.top, width: type.bounds.width - edgeInsets.left - edgeInsets.right, height: type.bounds.height - edgeInsets.top - edgeInsets.bottom )
         
         if cornerType == .all {
             pathRef.addRoundedRect(in: bounds, cornerWidth: cornerRadius, cornerHeight: cornerRadius)
@@ -250,6 +240,6 @@ extension NSD where Base: UITableViewCell {
         let bgView = UIView(frame: bounds)
         bgView.layer.insertSublayer(layer, at: 0)
         bgView.backgroundColor = .clear;
-        baseObj.backgroundView = bgView;
+        type.backgroundView = bgView;
     }
 }

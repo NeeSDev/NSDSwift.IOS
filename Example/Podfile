@@ -1,18 +1,28 @@
 # Uncomment the next line to define a global platform for your project
 platform :ios, '11.0'
 
+#source "https://github.com/CocoaPods/Specs.git"
+source "https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git"
+
 target 'Swift.IOS.Example' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
   # Pods for Swift.IOS.Example
+  
+  # UI 框架(MyLayout swift版本)
+  pod 'TangramKit', '~> 1.4.2'
+   
+  # 响应式编程库
+  pod 'ReactiveCocoa', '~> 10.2.0'
+   
+  # 数据解析，原理是内存存储操作
+  pod 'HandyJSON', '~> 5.0.2-beta'
+   
+  # http
+  pod 'Alamofire'
+  
+  # web image
+  pod 'AlamofireImage', '~> 4.1.0'
 
-    # UI 框架(MyLayout swift版本)
-    pod 'TangramKit', '~> 1.4.0'
-
-    # 响应式编程库
-    pod 'ReactiveCocoa', '~> 10.0.0'
-    
-    # HTTP 以及 HTTP image
-    pod 'AlamofireImage', '~> 4.0.0-beta.5'
 end

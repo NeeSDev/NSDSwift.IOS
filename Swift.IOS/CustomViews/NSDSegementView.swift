@@ -1,9 +1,9 @@
 //
-//  NSDSegementScrollView.swift
-//  Swift.IOS.Example
+//  NSDSegementView.swift
+//  NeeSDev
 //
-//  Created by NeeSDev Macbook Pro on 2019/9/20.
-//  Copyright © 2019 NeeSDev. All rights reserved.
+//  Created by Mac Mini on 2019/6/13.
+//  Copyright © 2019 Nee. All rights reserved.
 //
 
 import UIKit
@@ -35,9 +35,7 @@ class NSDSegementView: TGRelativeLayout {
     /// 当前选中的index
     private var _selectedIndex: Int = -1
     public var selectedIndex: Int {
-        get {
-            return _selectedIndex
-        }
+        return _selectedIndex
     }
     
     /// 绑定关系的scrollView
@@ -48,9 +46,6 @@ class NSDSegementView: TGRelativeLayout {
     
     private var selectFlagView = UIView()
     private var selectFlagWidth:CGFloat = -1
-    
-    /// 是否可以点击切换
-    var isSegementScrollEnable = true
 
     init(titles: [String], titleWidthOffset: CGFloat, subTitles: [String] = []) {
         super.init(frame: .zero)
@@ -122,11 +117,11 @@ private extension NSDSegementView {
         _selectedIndex = -1
         selectFlagView.isHidden = true
 
-        let titlesLayout = TGRelativeLayout()
+        let titlesLayout = TGLinearLayout(.horz)
         titlesLayout.tg_height.equal(.fill)
         contentLayout.addSubview(titlesLayout)
         
-        if titleWidthOffset < 0 , titleWidth < 0 {
+        if titleWidthOffset < 0 && titleWidth < 0 {
             contentLayout.tg_width.equal(.fill)
             titlesLayout.tg_width.equal(.fill)
         }
@@ -139,24 +134,10 @@ private extension NSDSegementView {
         for (index,title) in titles.enumerated() {
             let button = NSDButton(.vert)
             button.addTarget(self, action: #selector(segementClick), for: .touchUpInside)
-            button.text = title
-            button.font = .systemFont(ofSize: 15)
-            
-            button.addStateListener {[weak self] (state) in
-                switch state {
-                case .normal:
-                    button.textColor = self?.normalColor ?? .black
-                case .selected:
-                    button.textColor = self?.selectedColor ?? .black
-                default:
-                    return
-                }
-            }
-            
+            button.setText(with: title, font: .systemFont(ofSize: 15))
             if subTitles.count > 0 {
                 button.rootLayout.tg_vspace = 3
-                button.subText = subTitles[index]
-                button.subFont = .systemFont(ofSize: 13)
+                button.setSubText(with: subTitles[index],font: .systemFont(ofSize: 13))
             }
             
             if titleWidthOffset < 0 , titleWidth < 0 {
@@ -197,8 +178,8 @@ private extension NSDSegementView {
     
     func resetTitles() {
         for (index,button) in buttons.enumerated() {
-            button.text = titles[index]
-            button.subText = subTitles[index]
+            button.setText(with: titles[index])
+            button.setSubText(with: subTitles[index])
         }
     }
     
@@ -254,10 +235,8 @@ extension NSDSegementView {
     /// 按钮切换响应
     ///
     /// - Parameter button: 按钮
-    @objc func segementClick(button: UIButton) {
-        if isSegementScrollEnable {
-            setSelected(index: button.tag)
-        }
+    @objc func segementClick(button: NSDButton) {
+        setSelected(index: button.tag)
     }
     
     /// 设置title颜色
@@ -270,8 +249,8 @@ extension NSDSegementView {
         selectedColor = selected
         
         for button in buttons {
-            let state = button.state
-            button.state = state
+            button.setNomalState(textColor: normal)
+            button.setSelectedState(textColor: selected)
         }
     }
     
@@ -315,11 +294,10 @@ extension NSDSegementView {
     
     func setFont(_ font: UIFont, subFont: UIFont = UIFont.systemFont(ofSize: 13)) {
         for button in buttons {
-            button.font = font
-            button.subFont = subFont
+            button.setTextFont(with: font)
+            button.setSubTextFont(with: subFont)
         }
     }
-
 }
 
 extension NSDSegementView: UIScrollViewDelegate {
@@ -350,6 +328,7 @@ extension NSDSegementView: UIScrollViewDelegate {
     }
 }
 
+
 //MARK:- =========================== segement scroll view ===========================
 
 ///
@@ -372,22 +351,10 @@ extension NSDSegementView: UIScrollViewDelegate {
 /// rootLayout.addSubview(view)
 
 class NSDSegementScrollView: TGLinearLayout {
-    private let headerLoader = TGRelativeLayout()
     private let headerView: NSDSegementView!
     private let scrollView = UIScrollView()
     private var titles: [String] = []
     private var views: [UIView] = []
-    
-    var isSegementScrollEnable: Bool {
-        get {
-            return scrollView.isScrollEnabled
-        }
-        
-        set {
-            scrollView.isScrollEnabled = newValue
-            headerView.isSegementScrollEnable = newValue
-        }
-    }
     
     /// 切换完成后回调
     private var selectBlock: (Int)->Void = {_ in }
@@ -422,9 +389,7 @@ class NSDSegementScrollView: TGLinearLayout {
     
     
     public var selectedIndex: Int {
-        get {
-            return headerView.selectedIndex
-        }
+        return headerView.selectedIndex
     }
     
     public func setSelected(index: Int) {
@@ -432,10 +397,9 @@ class NSDSegementScrollView: TGLinearLayout {
     }
     
     // 数值设置左右偏移量
-    public func setHeader(left: CGFloat = 0, right: CGFloat = 0, height: CGFloat = 45) {
-        headerLoader.tg_left.equal(left)
-        headerLoader.tg_right.equal(right)
-        headerLoader.tg_height.equal(height)
+    public func setHeader(edgeInsets: UIEdgeInsets = UIEdgeInsets(0),height: CGFloat = 45) {
+        headerView.tg_padding = edgeInsets
+        headerView.tg_height.equal(height)
     }
 }
 
@@ -444,23 +408,16 @@ extension NSDSegementScrollView {
     
     /// UI 布局
     func uiMaker() {
-        headerLoader.tg_left.equal(0)
-        headerLoader.tg_right.equal(0)
-        headerLoader.tg_height.equal(45)
-        addSubview(headerLoader)
-        
-        headerView.tg_margin(0)
-        headerLoader.addSubview(headerView)
+        headerView.tg_left.equal(0)
+        headerView.tg_right.equal(0)
+        headerView.tg_height.equal(45)
+        addSubview(headerView)
         
         scrollView.isPagingEnabled = true
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.tg_horzMargin(0)
         scrollView.tg_height.equal(.fill)
         addSubview(scrollView)
-        
-//        if #available(iOS 11.0, *) {
-//            scrollView.contentInsetAdjustmentBehavior = .never
-//        }
         
         let flowLayout = TGFlowLayout(.vert, arrangedCount:1)
         flowLayout.tg_pagedCount = 1
@@ -506,8 +463,8 @@ extension NSDSegementScrollView {
     }
     
     func setHeaderBackgroundView(_ headerBackgroundView: UIView) {
-        headerLoader.addSubview(headerBackgroundView)
-        headerLoader.sendSubviewToBack(headerBackgroundView)
+        headerView.addSubview(headerBackgroundView)
+        headerView.sendSubviewToBack(headerBackgroundView)
     }
     
     /// 选中的底部横条的颜色
@@ -524,6 +481,7 @@ extension NSDSegementScrollView {
         selectBlock = block
     }
 }
+
 
 
 

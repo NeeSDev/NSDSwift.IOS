@@ -8,14 +8,15 @@
 
 import UIKit
 
-extension NSD where Base: UIAlertController {
+extension UIAlertController: NeeSDevExtended {}
+public extension NeeSDevExtension where ExtendedType: UIAlertController {
     //MARK: - =========================== quick shower ===========================
-    public static func showAlert<kindofViewController: UIViewController>(_ title: String?,
+    static func showAlert<kindofViewController: UIViewController>(_ title: String?,
                                                                         message: String?,
                                                                         target: kindofViewController?,
                                                                         confirmText: String? = "确定",
                                                                         confirmBlock: @escaping () -> Void = {}) {
-        let alert = Base.init(title: title, message: message, preferredStyle: .alert)
+        let alert = ExtendedType.init(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: confirmText, style: .default, handler: { (alertAction) in
             confirmBlock()
         }))
@@ -25,13 +26,13 @@ extension NSD where Base: UIAlertController {
         }
     }
     
-    public static func showAlert<kindofViewController: UIViewController>(_ title: String?,
+    static func showAlert<kindofViewController: UIViewController>(_ title: String?,
                                                                         message: String?,
                                                                         target: kindofViewController?,
                                                                         cancel: String? = "取消",
                                                                         confirmText: String? = "确定",
                                                                         animations: @escaping () -> Void) {
-        let alert = Base.init(title: title, message: message, preferredStyle: .alert)
+        let alert = ExtendedType.init(title: title, message: message, preferredStyle: .alert)
         
         alert.addAction(UIAlertAction(title: cancel, style: .cancel))
         
