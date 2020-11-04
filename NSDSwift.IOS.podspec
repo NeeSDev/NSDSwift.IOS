@@ -16,8 +16,8 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "NSDSwift.IOS"
-  s.version      = "1.0.0"
-  s.summary      = "基于Swfit 5.0、在IOS下的拓展"
+  s.version      = "2.0.0"
+  s.summary      = "基于Swfit 5.0，IOS下的拓展"
 
   # This description is used to generate tags and improve search results.
   #   * Think: What does it do? Why did you write it? What is the focus?
@@ -99,8 +99,7 @@ Pod::Spec.new do |s|
 
   # s.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
   s.framework    = "UIKit","Foundation"
-  s.dependency "TangramKit", "~> 1.4.0"
-  s.dependency "ReactiveCocoa","~> 10.0.0"
-  s.dependency "AlamofireImage", "~> 4.0.0-beta.5"
-
+  s.dependency "TangramKit", "~> 1.4.2"
+  s.dependency "ReactiveCocoa","~> 10.2.0"
+  s.dependency "AlamofireImage", "~> 4.1.0"
 end
