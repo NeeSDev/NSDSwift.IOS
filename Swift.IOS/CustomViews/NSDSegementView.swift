@@ -13,6 +13,7 @@ import TangramKit
 class NSDSegementView: TGRelativeLayout {
     private var contentLayout = TGRelativeLayout()
     /// title字符串 数组
+    
     private var titles: [String] = []
     private var subTitles: [String] = []
     
