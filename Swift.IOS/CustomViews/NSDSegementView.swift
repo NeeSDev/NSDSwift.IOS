@@ -360,7 +360,7 @@ public class NSDSegementScrollView: TGLinearLayout {
     /// 切换完成后回调
     private var selectBlock: (Int)->Void = {_ in }
     
-    init(titles: [String],views: [UIView],titleWidthOffset: CGFloat, subTitles: [String] = []) {
+    public init(titles: [String],views: [UIView],titleWidthOffset: CGFloat, subTitles: [String] = []) {
         headerView = NSDSegementView(titles: titles,titleWidthOffset: titleWidthOffset, subTitles: subTitles)
         super.init(frame: .zero, orientation: .vert)
         self.titles = titles
@@ -368,7 +368,7 @@ public class NSDSegementScrollView: TGLinearLayout {
         uiMaker()
     }
     
-    init(titles: [String],views: [UIView],titleWidth: CGFloat, subTitles: [String] = []) {
+    public init(titles: [String],views: [UIView],titleWidth: CGFloat, subTitles: [String] = []) {
         headerView = NSDSegementView(titles: titles,titleWidth: titleWidth, subTitles: subTitles)
         super.init(frame: .zero, orientation: .vert)
         self.titles = titles
@@ -376,7 +376,7 @@ public class NSDSegementScrollView: TGLinearLayout {
         uiMaker()
     }
     
-    init(titles: [String],views: [UIView], subTitles: [String] = []) {
+    public init(titles: [String],views: [UIView], subTitles: [String] = []) {
         headerView = NSDSegementView(titles: titles)
         super.init(frame: .zero, orientation: .vert)
         self.titles = titles
@@ -405,10 +405,10 @@ public class NSDSegementScrollView: TGLinearLayout {
 }
 
 
-public extension NSDSegementScrollView {
+extension NSDSegementScrollView {
     
     /// UI 布局
-    func uiMaker() {
+    public func uiMaker() {
         headerView.tg_left.equal(0)
         headerView.tg_right.equal(0)
         headerView.tg_height.equal(45)
@@ -435,7 +435,7 @@ public extension NSDSegementScrollView {
     }
     
     //UI 逻辑（可分离时分离）
-    func uiLogicMaker() {
+    public func uiLogicMaker() {
         headerView.setRelativeScrollView(scrollView)
 
         headerView.setSelectBlock { [weak self] (index) in
@@ -452,18 +452,18 @@ public extension NSDSegementScrollView {
     /// - Parameters:
     ///   - normal: 正常颜色
     ///   - selected: 选中颜色
-    func setTitleColor(normal: UIColor, selected: UIColor) {
+    public func setTitleColor(normal: UIColor, selected: UIColor) {
         headerView.setTitleColor(normal: normal, selected: selected)
     }
     
     /// 设置title文字的字体
     ///
     /// - Parameter font: 字体
-    func setTitleFont(_ font: UIFont) {
+    public func setTitleFont(_ font: UIFont) {
         headerView.setFont(font)
     }
     
-    func setHeaderBackgroundView(_ headerBackgroundView: UIView) {
+    public func setHeaderBackgroundView(_ headerBackgroundView: UIView) {
         headerView.addSubview(headerBackgroundView)
         headerView.sendSubviewToBack(headerBackgroundView)
     }
@@ -471,14 +471,14 @@ public extension NSDSegementScrollView {
     /// 选中的底部横条的颜色
     ///
     /// - Parameter color: 颜色
-    func setSelectStyle( color:UIColor,height: CGFloat = 3,width: CGFloat = -1) {
+    public func setSelectStyle( color:UIColor,height: CGFloat = 3,width: CGFloat = -1) {
        headerView.setSelectStyle(color: color,height: height, width: width)
     }
     
     /// 设置切换回调
     ///
     /// - Parameter block: 回调方法
-    func setSelectBlock(block: @escaping (Int)->Void) {
+    public func setSelectBlock(block: @escaping (Int)->Void) {
         selectBlock = block
     }
 }

@@ -11,13 +11,13 @@ import TangramKit
 
 public class NSDButton: UIView {
     
-    let rootLayout = TGRelativeLayout()
-    let backgroundImageView = UIImageView()
-    let contentLayout: TGLinearLayout
+    public let rootLayout = TGRelativeLayout()
+    public let backgroundImageView = UIImageView()
+    public let contentLayout: TGLinearLayout
 
-    let imageView = UIImageView()
-    let textLabel = UILabel()
-    let subTextLabel = UILabel()
+    public let imageView = UIImageView()
+    public let textLabel = UILabel()
+    public let subTextLabel = UILabel()
     
     private var state: UIControl.State = .normal
     
@@ -43,9 +43,9 @@ public class NSDButton: UIView {
     private var selectedBackgroundImage: UIImage?
     private var selectedBackgroundColor: UIColor?
     
-    var touchUpInsideBlock: (NSDButton)->Void = {_ in }
-    var touchCancelBlock: (NSDButton)->Void = {_ in }
-    var touchDownBlock: (NSDButton)->Void = {_ in }
+    public var touchUpInsideBlock: (NSDButton)->Void = {_ in }
+    public var touchCancelBlock: (NSDButton)->Void = {_ in }
+    public var touchDownBlock: (NSDButton)->Void = {_ in }
     
     private weak  var touchDownTarget:NSObjectProtocol! = nil
     private weak  var touchUpInsideTarget:NSObjectProtocol! = nil
@@ -95,7 +95,7 @@ public class NSDButton: UIView {
         }
     }
     
-    init(_ orientation: TGOrientation) {
+    public init(_ orientation: TGOrientation) {
         contentLayout = TGLinearLayout(orientation)
         super.init(frame: .zero)
         
@@ -124,8 +124,8 @@ public class NSDButton: UIView {
 }
 
 //MARK:- =========================== state ===========================
-public extension NSDButton {
-    func setState(to state: UIControl.State) {
+extension NSDButton {
+    public func setState(to state: UIControl.State) {
         //不可用状态时，无法修改
         if self.state == .disabled {
             return
@@ -168,7 +168,7 @@ public extension NSDButton {
         contentLayout.backgroundColor = backgroundColor
     }
     
-    func setNomalState(imageName: String? = nil, textColor: UIColor? = nil ,backgroundImageName: String? = nil, backgroundColor: UIColor? = nil) {
+    public func setNomalState(imageName: String? = nil, textColor: UIColor? = nil ,backgroundImageName: String? = nil, backgroundColor: UIColor? = nil) {
         
         if let imageName = imageName {
             normalImage = UIImage(named: imageName)
@@ -184,7 +184,7 @@ public extension NSDButton {
         setState(to: state)
     }
     
-    func setHighlightedState(imageName: String? = nil, textColor: UIColor? = nil, backgroundImageName: String? = nil , backgroundColor: UIColor? = nil) {
+    public func setHighlightedState(imageName: String? = nil, textColor: UIColor? = nil, backgroundImageName: String? = nil , backgroundColor: UIColor? = nil) {
         
         if let imageName = imageName {
             highlightedImage = UIImage(named: imageName)
@@ -200,7 +200,7 @@ public extension NSDButton {
         setState(to: state)
     }
     
-    func setSelectedState(imageName: String? = nil, textColor: UIColor? = nil,backgroundImageName: String? = nil , backgroundColor: UIColor? = nil) {
+    public func setSelectedState(imageName: String? = nil, textColor: UIColor? = nil,backgroundImageName: String? = nil , backgroundColor: UIColor? = nil) {
         if let imageName = imageName {
             selectedImage = UIImage(named: imageName)
         }
@@ -212,7 +212,7 @@ public extension NSDButton {
         setState(to: state)
     }
     
-    func setDisabledState(imageName: String? = nil, textColor: UIColor? = nil,backgroundImageName: String? = nil , backgroundColor: UIColor? = nil) {
+    public func setDisabledState(imageName: String? = nil, textColor: UIColor? = nil,backgroundImageName: String? = nil , backgroundColor: UIColor? = nil) {
         if let imageName = imageName {
             disabledImage = UIImage(named: imageName)
         }
@@ -224,14 +224,14 @@ public extension NSDButton {
         setState(to: state)
     }
     
-    func setStaticBackgroudImage(_ imageName :String) {
+    public func setStaticBackgroudImage(_ imageName :String) {
         normalBackgroundImage = UIImage(named: imageName)
         highlightedBackgroundImage = UIImage(named: imageName)
         selectedBackgroundImage = UIImage(named: imageName)
         disabledBackgroundImage = UIImage(named: imageName)
     }
     
-    func addTarget(_ target: NSObjectProtocol?, action: Selector?, for controlEvents: UIControl.Event)
+    public func addTarget(_ target: NSObjectProtocol?, action: Selector?, for controlEvents: UIControl.Event)
     {
         //just only support these events
         switch controlEvents {
@@ -254,14 +254,14 @@ public extension NSDButton {
     }
 }
 
-public extension NSDButton {
-    func setText(with text:String, font:UIFont) {
+extension NSDButton {
+    public func setText(with text:String, font:UIFont) {
         textLabel.text = text
         textLabel.font = font
         textLabel.sizeToFit()
     }
     
-    func setText(with text:String, font:UIFont, color:UIColor) {
+    public func setText(with text:String, font:UIFont, color:UIColor) {
         textLabel.text = text
         textLabel.font = font
         textLabel.textColor = color
@@ -270,29 +270,29 @@ public extension NSDButton {
         normalTextColor = color
     }
     
-    func setText(with text:String) {
+    public func setText(with text:String) {
         textLabel.text = text
         textLabel.sizeToFit()
     }
     
-    func setTextFont(with font:UIFont) {
+    public func setTextFont(with font:UIFont) {
         textLabel.font = font
         textLabel.sizeToFit()
     }
     
-    func setTextColor(with color:UIColor) {
+    public func setTextColor(with color:UIColor) {
         textLabel.textColor = color
         
         normalTextColor = color
     }
     
-    func setSubText(with text:String, font:UIFont) {
+    public func setSubText(with text:String, font:UIFont) {
         subTextLabel.text = text
         subTextLabel.font = font
         subTextLabel.sizeToFit()
     }
     
-    func setSubText(with text:String, font:UIFont, color:UIColor) {
+    public func setSubText(with text:String, font:UIFont, color:UIColor) {
         subTextLabel.text = text
         subTextLabel.font = font
         subTextLabel.textColor = color
@@ -301,17 +301,17 @@ public extension NSDButton {
         subTextColor = color
     }
     
-    func setSubText(with text:String) {
+    public func setSubText(with text:String) {
         subTextLabel.text = text
         subTextLabel.sizeToFit()
     }
     
-    func setSubTextFont(with font:UIFont) {
+    public func setSubTextFont(with font:UIFont) {
         subTextLabel.font = font
         subTextLabel.sizeToFit()
     }
     
-    func setSubTextColor(with color:UIColor) {
+    public func setSubTextColor(with color:UIColor) {
         subTextLabel.textColor = color
         
         subTextColor = color

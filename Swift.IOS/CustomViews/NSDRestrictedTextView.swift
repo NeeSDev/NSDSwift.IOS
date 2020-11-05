@@ -12,15 +12,15 @@ public typealias NSDRestrictedTextViewHandler = (NSDRestrictedTextView) -> Void
 
 public class NSDRestrictedTextView: UITextView {
     
-    var changeHandler: NSDRestrictedTextViewHandler = {_ in}
-    var maxHandler: NSDRestrictedTextViewHandler = {_ in}
+    public var changeHandler: NSDRestrictedTextViewHandler = {_ in}
+    public var maxHandler: NSDRestrictedTextViewHandler = {_ in}
     
     let textViewPlaceholderVerticalMargin: CGFloat = 8.0 ///< placeholder垂直方向边距
     let textViewPlaceholderHorizontalMargin: CGFloat = 6.0; ///< placeholder水平方向边距
 
     /// 最大限制文本长度, 默认为无穷大, 即不限制, 如果被设为 0 也同样表示不限制字符数.
     private var _maxLength: Int  = 0
-    var maxLength: Int {
+    public var maxLength: Int {
         set {
             _maxLength = newValue
             setMaxLengthResponse()
@@ -45,7 +45,7 @@ public class NSDRestrictedTextView: UITextView {
     
     /// 会自适应TextView宽高以及横竖屏切换, 字体默认和TextView一致.
     private var _placeholder: String = ""
-    var placeholder: String {
+    public var placeholder: String {
         get {
             return _placeholder
         }
@@ -59,7 +59,7 @@ public class NSDRestrictedTextView: UITextView {
 
     /// 文本颜色, 默认为 .lightGray
     private var _placeholderColor: UIColor = .lightGray
-    var placeholderColor: UIColor {
+    public var placeholderColor: UIColor {
         get {
             return _placeholderColor
         }
@@ -70,7 +70,7 @@ public class NSDRestrictedTextView: UITextView {
         }
     }
 
-    var placeholderLabel: UILabel = UILabel.nsd.get(.systemFont(ofSize: 15),
+    public var placeholderLabel: UILabel = UILabel.nsd.get(.systemFont(ofSize: 15),
                                                      color: .black,
                                                      alignment: .left)
     
@@ -100,7 +100,7 @@ public class NSDRestrictedTextView: UITextView {
         return resign
     }
     
-    init() {
+    public init() {
         super.init(frame: .zero, textContainer: nil)
         initialize()
     }
@@ -153,13 +153,12 @@ public class NSDRestrictedTextView: UITextView {
 
 }
 
-public extension NSDRestrictedTextView {
-    
-    func setTextDidChangeHandler(_ handler: @escaping NSDRestrictedTextViewHandler) {
+extension NSDRestrictedTextView {
+    public func setTextDidChangeHandler(_ handler: @escaping NSDRestrictedTextViewHandler) {
         changeHandler = handler
     }
     
-    func setTextLengthDidMaxHandler(_ handler: @escaping NSDRestrictedTextViewHandler) {
+    public func setTextLengthDidMaxHandler(_ handler: @escaping NSDRestrictedTextViewHandler) {
         maxHandler = handler
     }
 }
