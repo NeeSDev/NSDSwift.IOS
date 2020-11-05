@@ -11,23 +11,23 @@ import ReactiveCocoa
 import AlamofireImage
 
 extension UIView: NeeSDevExtended {}
-extension NeeSDevExtension where ExtendedType: UIView {
-    public func setBoundsStyle(cornerRadius:  CGFloat, borderWidth:  CGFloat, borderColor: UIColor) {
+public extension NeeSDevExtension where ExtendedType: UIView {
+    func setBoundsStyle(cornerRadius:  CGFloat, borderWidth:  CGFloat, borderColor: UIColor) {
         type.layer.masksToBounds = true
         type.layer.cornerRadius = cornerRadius
         type.layer.borderColor = borderColor.cgColor
         type.layer.borderWidth = borderWidth
     }
     
-    public func setCornerRadius(_ cornerRadius:  CGFloat) {
+    func setCornerRadius(_ cornerRadius:  CGFloat) {
         type.layer.masksToBounds = true
         type.layer.cornerRadius = cornerRadius
     }
 }
 
 //MARK: - =========================== label ===========================
-extension NeeSDevExtension where ExtendedType: UILabel {
-    public static func get(_ font:  UIFont, color:  UIColor, alignment: NSTextAlignment) -> UILabel {
+public extension NeeSDevExtension where ExtendedType: UILabel {
+    static func get(_ font:  UIFont, color:  UIColor, alignment: NSTextAlignment) -> UILabel {
         let label = ExtendedType()
         label.font = font
         label.textColor = color
@@ -35,7 +35,7 @@ extension NeeSDevExtension where ExtendedType: UILabel {
         return label
     }
     
-    public static func get(_ text: String?, font:  UIFont, color:  UIColor, alignment: NSTextAlignment) -> UILabel {
+    static func get(_ text: String?, font:  UIFont, color:  UIColor, alignment: NSTextAlignment) -> UILabel {
         let label = ExtendedType.nsd.get(font, color:  color, alignment:  alignment)
         label.text = text
         //设置了文字才可以自动适配size，不影响后面添加自动适配
@@ -45,31 +45,31 @@ extension NeeSDevExtension where ExtendedType: UILabel {
 }
 
 //MARK: - =========================== button ===========================
-extension NeeSDevExtension where ExtendedType: UIButton {
+public extension NeeSDevExtension where ExtendedType: UIButton {
     
     //MARK: - =========================== quick getter ===========================
-    public static func getSelImage(_ imageName: String, target:  Any?, action:  Selector) -> UIButton {
+    static func getSelImage(_ imageName: String, target:  Any?, action:  Selector) -> UIButton {
         let btn = ExtendedType.init(type: .custom)
         btn.nsd.setNormalImage(imageName)
         btn.addTarget(target, action:  action, for: .touchUpInside)
         return btn
     }
     
-    public static func getSelBackgroundImage(_ imageName: String, target:  Any?, action:  Selector) -> UIButton {
+    static func getSelBackgroundImage(_ imageName: String, target:  Any?, action:  Selector) -> UIButton {
         let btn = ExtendedType.init(type: .custom)
         btn.nsd.setNormalBackgroundImage(imageName)
         btn.addTarget(target, action:  action, for: .touchUpInside)
         return btn
     }
     
-    public static func getSelBackgroundColor(_ backgroundColor: UIColor, target:  Any?, action:  Selector) -> UIButton {
+    static func getSelBackgroundColor(_ backgroundColor: UIColor, target:  Any?, action:  Selector) -> UIButton {
         let btn = ExtendedType.init(type: .custom)
         btn.backgroundColor = backgroundColor
         btn.addTarget(target, action:  action, for: .touchUpInside)
         return btn
     }
     
-    public static func getBlockImage(_ imageName: String, action:  @escaping (UIButton) -> Void) -> UIButton {
+    static func getBlockImage(_ imageName: String, action:  @escaping (UIButton) -> Void) -> UIButton {
         let btn = ExtendedType.init(type: .custom)
         btn.nsd.setNormalImage(imageName)
         btn.reactive.controlEvents(.touchUpInside).observeValues { (button) in
@@ -78,7 +78,7 @@ extension NeeSDevExtension where ExtendedType: UIButton {
         return btn
     }
     
-    public static func getBlockBackgroundImage(_ imageName: String, action:  @escaping (UIButton) -> Void) -> UIButton {
+    static func getBlockBackgroundImage(_ imageName: String, action:  @escaping (UIButton) -> Void) -> UIButton {
         let btn = ExtendedType.init(type: .custom)
         btn.nsd.setNormalBackgroundImage(imageName)
         btn.reactive.controlEvents(.touchUpInside).observeValues { (button) in
@@ -87,7 +87,7 @@ extension NeeSDevExtension where ExtendedType: UIButton {
         return btn
     }
     
-    public static func getBlockBackgroundColor(_ backgroundColor: UIColor, action:  @escaping (UIButton) -> Void) -> UIButton {
+    static func getBlockBackgroundColor(_ backgroundColor: UIColor, action:  @escaping (UIButton) -> Void) -> UIButton {
         let btn = ExtendedType.init(type: .custom)
         btn.backgroundColor = backgroundColor
         btn.reactive.controlEvents(.touchUpInside).observeValues { (button) in
@@ -98,70 +98,70 @@ extension NeeSDevExtension where ExtendedType: UIButton {
     
     //MARK: - =========================== quick setter ===========================
     //MARK:  ========= image setter =========
-    public func setNormalImage(_ imageName: String) {
+    func setNormalImage(_ imageName: String) {
         type.setImage(UIImage(named:  imageName), for: .normal)
     }
     
-    public func setSelectedImage(_ imageName: String) {
+    func setSelectedImage(_ imageName: String) {
         type.setImage(UIImage(named:  imageName), for: .selected)
     }
     
-    public func setHighlightImage(_ imageName: String) {
+    func setHighlightImage(_ imageName: String) {
         type.setImage(UIImage(named:  imageName), for: .highlighted)
     }
     
     //MARK:  ========= background image setter =========
-    public func setNormalBackgroundImage(_ imageName: String) {
+    func setNormalBackgroundImage(_ imageName: String) {
         type.setBackgroundImage(UIImage(named:  imageName), for: .normal)
     }
     
-    public func setSelectedBackgroundImage(_ imageName: String) {
+    func setSelectedBackgroundImage(_ imageName: String) {
         type.setBackgroundImage(UIImage(named:  imageName), for: .selected)
     }
     
-    public func setHighlightBackgroundImage(_ imageName: String) {
+    func setHighlightBackgroundImage(_ imageName: String) {
         type.setBackgroundImage(UIImage(named:  imageName), for: .highlighted)
     }
     
     //MARK:  ========= title stter =========
-    public func setNormalTitle(_ title: String?) {
+    func setNormalTitle(_ title: String?) {
         type.setTitle(title, for: .normal)
     }
     
-    public func setNormalTitle(_ title: String?, color: UIColor) {
+    func setNormalTitle(_ title: String?, color: UIColor) {
         type.setTitle(title, for: .normal)
         type.setTitleColor(color, for: .normal)
     }
     
-    public func setNormalTitle(_ title: String?, font: UIFont, color: UIColor) {
+    func setNormalTitle(_ title: String?, font: UIFont, color: UIColor) {
         type.setTitle(title, for: .normal)
         type.setTitleColor(color, for: .normal)
         type.titleLabel?.font = font
     }
     
-    public func setSelectedTitle(_ title: String?, color: UIColor) {
+    func setSelectedTitle(_ title: String?, color: UIColor) {
         type.setTitle(title, for: .selected)
         type.setTitleColor(color, for: .selected)
     }
     
-    public func setSelectedTitle(_ title: String?) {
+    func setSelectedTitle(_ title: String?) {
         type.setTitle(title, for: .selected)
     }
     
-    public func setTitleColor(normal: UIColor, selected: UIColor) {
+    func setTitleColor(normal: UIColor, selected: UIColor) {
         type.setTitleColor(normal, for: .normal)
         type.setTitleColor(selected, for: .selected)
     }
 }
 
-extension NeeSDevExtension where ExtendedType: UITextField {
-    public func setPlaceholderText(with text:String, font: UIFont, color: UIColor) {
+public extension NeeSDevExtension where ExtendedType: UITextField {
+    func setPlaceholderText(with text:String, font: UIFont, color: UIColor) {
         type.attributedPlaceholder = NSAttributedString(string: text, attributes: [.foregroundColor: color,.font: font])
     }
 }
 
 //MARK:- =========================== UIImageView ===========================
-extension NeeSDevExtension where ExtendedType: UIImageView {
+public extension NeeSDevExtension where ExtendedType: UIImageView {
     
     func setImage(urlString: String?, placeholderImageName: String) {
         
@@ -198,8 +198,8 @@ public enum NSDCornerType {
     case none
 };
 
-extension NeeSDevExtension where ExtendedType: UITableViewCell {
-    public func setCellCornerStyle(cornerRadius: CGFloat,color: UIColor = .white,cornerType: NSDCornerType = .all,edgeInsets: UIEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)) {
+public extension NeeSDevExtension where ExtendedType: UITableViewCell {
+    func setCellCornerStyle(cornerRadius: CGFloat,color: UIColor = .white,cornerType: NSDCornerType = .all,edgeInsets: UIEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)) {
         type.backgroundColor = .clear
         let layer = CAShapeLayer()
         let pathRef = CGMutablePath()

@@ -10,17 +10,11 @@ target 'Swift.IOS.Example' do
 
   # Pods for Swift.IOS.Example
   
-  # UI 框架(MyLayout swift版本)
+  # UI (MyLayout swift-version)
   pod 'TangramKit', '~> 1.4.2'
    
-  # 响应式编程库
+  # 
   pod 'ReactiveCocoa', '~> 10.2.0'
-   
-  # 数据解析，原理是内存存储操作
-  pod 'HandyJSON', '~> 5.0.2-beta'
-   
-  # http
-  pod 'Alamofire'
   
   # web image
   pod 'AlamofireImage', '~> 4.1.0'

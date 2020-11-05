@@ -8,9 +8,9 @@
 
 import UIKit
 
-typealias NSDRestrictedTextViewHandler = (NSDRestrictedTextView) -> Void
+public typealias NSDRestrictedTextViewHandler = (NSDRestrictedTextView) -> Void
 
-class NSDRestrictedTextView: UITextView {
+public class NSDRestrictedTextView: UITextView {
     
     var changeHandler: NSDRestrictedTextViewHandler = {_ in}
     var maxHandler: NSDRestrictedTextViewHandler = {_ in}
@@ -31,13 +31,13 @@ class NSDRestrictedTextView: UITextView {
         }
     }
 
-    override var text: String! {
+    public override var text: String! {
         didSet {
             setMaxLengthResponse()
         }
     }
     
-    override var font: UIFont? {
+    public override var font: UIFont? {
         didSet {
             placeholderLabel.font = self.font
         }
@@ -78,7 +78,7 @@ class NSDRestrictedTextView: UITextView {
         NotificationCenter.default.removeObserver(self)
     }
     
-    override func becomeFirstResponder() -> Bool {
+    public override func becomeFirstResponder() -> Bool {
         let become = super.becomeFirstResponder()
         
         if become {
@@ -91,7 +91,7 @@ class NSDRestrictedTextView: UITextView {
     }
     
     @discardableResult
-    override func resignFirstResponder() -> Bool {
+    public override func resignFirstResponder() -> Bool {
         let resign = super.resignFirstResponder()
         NotificationCenter.default.removeObserver(self,
                                                   name: UITextView.textDidChangeNotification,
@@ -105,7 +105,7 @@ class NSDRestrictedTextView: UITextView {
         initialize()
     }
     
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -153,7 +153,7 @@ class NSDRestrictedTextView: UITextView {
 
 }
 
-extension NSDRestrictedTextView {
+public extension NSDRestrictedTextView {
     
     func setTextDidChangeHandler(_ handler: @escaping NSDRestrictedTextViewHandler) {
         changeHandler = handler

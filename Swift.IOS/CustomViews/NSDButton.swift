@@ -9,7 +9,7 @@
 import UIKit
 import TangramKit
 
-class NSDButton: UIView {
+public class NSDButton: UIView {
     
     let rootLayout = TGRelativeLayout()
     let backgroundImageView = UIImageView()
@@ -124,7 +124,7 @@ class NSDButton: UIView {
 }
 
 //MARK:- =========================== state ===========================
-extension NSDButton {
+public extension NSDButton {
     func setState(to state: UIControl.State) {
         //不可用状态时，无法修改
         if self.state == .disabled {
@@ -168,7 +168,7 @@ extension NSDButton {
         contentLayout.backgroundColor = backgroundColor
     }
     
-    public func setNomalState(imageName: String? = nil, textColor: UIColor? = nil ,backgroundImageName: String? = nil, backgroundColor: UIColor? = nil) {
+    func setNomalState(imageName: String? = nil, textColor: UIColor? = nil ,backgroundImageName: String? = nil, backgroundColor: UIColor? = nil) {
         
         if let imageName = imageName {
             normalImage = UIImage(named: imageName)
@@ -184,7 +184,7 @@ extension NSDButton {
         setState(to: state)
     }
     
-    public func setHighlightedState(imageName: String? = nil, textColor: UIColor? = nil, backgroundImageName: String? = nil , backgroundColor: UIColor? = nil) {
+    func setHighlightedState(imageName: String? = nil, textColor: UIColor? = nil, backgroundImageName: String? = nil , backgroundColor: UIColor? = nil) {
         
         if let imageName = imageName {
             highlightedImage = UIImage(named: imageName)
@@ -200,7 +200,7 @@ extension NSDButton {
         setState(to: state)
     }
     
-    public func setSelectedState(imageName: String? = nil, textColor: UIColor? = nil,backgroundImageName: String? = nil , backgroundColor: UIColor? = nil) {
+    func setSelectedState(imageName: String? = nil, textColor: UIColor? = nil,backgroundImageName: String? = nil , backgroundColor: UIColor? = nil) {
         if let imageName = imageName {
             selectedImage = UIImage(named: imageName)
         }
@@ -212,7 +212,7 @@ extension NSDButton {
         setState(to: state)
     }
     
-    public func setDisabledState(imageName: String? = nil, textColor: UIColor? = nil,backgroundImageName: String? = nil , backgroundColor: UIColor? = nil) {
+    func setDisabledState(imageName: String? = nil, textColor: UIColor? = nil,backgroundImageName: String? = nil , backgroundColor: UIColor? = nil) {
         if let imageName = imageName {
             disabledImage = UIImage(named: imageName)
         }
@@ -224,14 +224,14 @@ extension NSDButton {
         setState(to: state)
     }
     
-    public func setStaticBackgroudImage(_ imageName :String) {
+    func setStaticBackgroudImage(_ imageName :String) {
         normalBackgroundImage = UIImage(named: imageName)
         highlightedBackgroundImage = UIImage(named: imageName)
         selectedBackgroundImage = UIImage(named: imageName)
         disabledBackgroundImage = UIImage(named: imageName)
     }
     
-    public func addTarget(_ target: NSObjectProtocol?, action: Selector?, for controlEvents: UIControl.Event)
+    func addTarget(_ target: NSObjectProtocol?, action: Selector?, for controlEvents: UIControl.Event)
     {
         //just only support these events
         switch controlEvents {
@@ -254,7 +254,7 @@ extension NSDButton {
     }
 }
 
-extension NSDButton {
+public extension NSDButton {
     func setText(with text:String, font:UIFont) {
         textLabel.text = text
         textLabel.font = font
@@ -319,7 +319,7 @@ extension NSDButton {
 }
 
 
-extension NSDButton {
+public extension NSDButton {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         if state == .disabled {

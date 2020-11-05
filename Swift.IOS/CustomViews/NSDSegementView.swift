@@ -10,7 +10,7 @@ import UIKit
 import TangramKit
 
 //MARK:- =========================== segement view ===========================
-class NSDSegementView: TGRelativeLayout {
+public class NSDSegementView: TGRelativeLayout {
     private var contentLayout = TGRelativeLayout()
     /// title字符串 数组
     
@@ -211,7 +211,7 @@ private extension NSDSegementView {
 }
 
 
-extension NSDSegementView {
+public extension NSDSegementView {
     func setTitles(titles: [String], subTitles: [String] = []) {
         self.titles = titles
         self.subTitles = subTitles
@@ -320,11 +320,11 @@ extension NSDSegementView: UIScrollViewDelegate {
         }
     }
     
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         checkSelectedStatus()
     }
     
-    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+    public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         checkSelectedStatus()
     }
 }
@@ -351,7 +351,7 @@ extension NSDSegementView: UIScrollViewDelegate {
 /// view.tg_height.equal(.fill)
 /// rootLayout.addSubview(view)
 
-class NSDSegementScrollView: TGLinearLayout {
+public class NSDSegementScrollView: TGLinearLayout {
     private let headerView: NSDSegementView!
     private let scrollView = UIScrollView()
     private var titles: [String] = []
@@ -405,7 +405,7 @@ class NSDSegementScrollView: TGLinearLayout {
 }
 
 
-extension NSDSegementScrollView {
+public extension NSDSegementScrollView {
     
     /// UI 布局
     func uiMaker() {

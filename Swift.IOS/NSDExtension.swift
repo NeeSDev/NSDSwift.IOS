@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension UIScreen {
+public extension UIScreen {
     class var screenHeight: CGFloat {
         UIScreen.main.bounds.height
     }
@@ -18,7 +18,7 @@ extension UIScreen {
     }
 }
 
-extension UIColor {
+public extension UIColor {
     static func color(red: CGFloat, green: CGFloat, blue: CGFloat) -> UIColor {
         return UIColor(red: red/255.0, green: green/255.0, blue: blue/255.0, alpha: 1.0)
     }
@@ -28,7 +28,7 @@ extension UIColor {
     }
 }
 
-extension CGColor {
+public extension CGColor {
     class var black: CGColor {
         return UIColor.black.cgColor
     }
@@ -58,7 +58,7 @@ extension CGColor {
     }
 }
 
-extension UIEdgeInsets {
+public extension UIEdgeInsets {
     init(_ value: CGFloat) {
         self.init(top: value, left: value, bottom: value, right: value)
     }
@@ -98,7 +98,7 @@ extension UIEdgeInsets {
 
 
 
-extension String {
+public extension String {
     func range(with range: NSRange) -> Range<String.Index>? {
         guard let from16 = utf16.index(utf16.startIndex, offsetBy: range.location, limitedBy: utf16.endIndex) else { return nil }
         guard let to16 = utf16.index(from16, offsetBy: range.length, limitedBy: utf16.endIndex) else { return nil }
@@ -108,7 +108,7 @@ extension String {
     }
 }
 
-extension Date {
+public extension Date {
     
     func formatter_HHmmss() -> String {
         let formatter = DateFormatter()

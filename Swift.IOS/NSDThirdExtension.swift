@@ -8,7 +8,7 @@
 
 import TangramKit
 
-extension TGGravity {
+public extension TGGravity {
     static var horzFill: TGGravity {
         TGGravity.horz.fill
     }
