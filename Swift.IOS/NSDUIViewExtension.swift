@@ -162,6 +162,9 @@ public extension NeeSDevExtension where ExtendedType: UITextField {
 
 //MARK:- =========================== UIImageView ===========================
 public extension NeeSDevExtension where ExtendedType: UIImageView {
+    static func get(_ imageNamed: String) -> UIImageView {
+        return UIImageView(image: UIImage(named: imageNamed))
+    }
     
     func setImage(urlString: String?, placeholderImageName: String) {
         
