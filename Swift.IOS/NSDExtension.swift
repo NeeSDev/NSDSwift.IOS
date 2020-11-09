@@ -175,7 +175,7 @@ public extension Date {
     }
 }
 
-extension UIImage {
+public extension UIImage {
     func fixOrientation() -> UIImage {
         
         if imageOrientation == .up {
