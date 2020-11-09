@@ -26,6 +26,14 @@ public extension UIColor {
     static func colorAlpha(red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) -> UIColor {
         return UIColor(red: red/255.0, green: green/255.0, blue: blue/255.0, alpha: alpha)
     }
+    
+    convenience init(_ red: CGFloat, _ green: CGFloat, _ blue: CGFloat) {
+        self.init(red: red/255.0, green: green/255.0, blue: blue/255.0, alpha: 1.0)
+    }
+    
+    convenience init(_ red: CGFloat, _ green: CGFloat, _ blue: CGFloat, _ alpha: CGFloat) {
+        self.init(red: red/255.0, green: green/255.0, blue: blue/255.0, alpha: alpha)
+    }
 }
 
 public extension CGColor {
@@ -49,11 +57,11 @@ public extension CGColor {
         return UIColor.red.cgColor
     }
     
-    static func color(red: CGFloat, green: CGFloat, blue: CGFloat) -> CGColor {
+    static func color(_ red: CGFloat, _ green: CGFloat, _ blue: CGFloat) -> CGColor {
         return UIColor(red: red/255.0, green: green/255.0, blue: blue/255.0, alpha: 1.0).cgColor
     }
     
-    static func colorAlpha(red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) -> CGColor {
+    static func colorAlpha(_ red: CGFloat, _ green: CGFloat, _ blue: CGFloat, _ alpha: CGFloat) -> CGColor {
         return UIColor(red: red/255.0, green: green/255.0, blue: blue/255.0, alpha: alpha).cgColor
     }
 }
