@@ -174,3 +174,99 @@ public extension Date {
         return (resultWeekdays, resultWeekFomatters, resultWeekDates)
     }
 }
+
+extension UIImage {
+    func fixOrientation() -> UIImage {
+        
+        if imageOrientation == .up {
+            return self
+        }
+        
+        // We need to calculate the proper transformation to make the image upright.
+        // We do it in 2 steps: Rotate if Left/Right/Down, and then flip if Mirrored.
+        let transform: CGAffineTransform = .identity
+        
+        switch imageOrientation {
+        case .down, .downMirrored:
+            transform.translatedBy(x: self.size.width, y: self.size.height)
+            transform.rotated(by: .pi)
+            break;
+                
+        case .left, .leftMirrored:
+            transform.translatedBy(x: self.size.width, y: 0)
+            transform.rotated(by: .pi/2)
+            break;
+                
+                
+        case .right, .rightMirrored:
+            transform.translatedBy(x: 0, y: self.size.height)
+            transform.rotated(by: -.pi/2)
+            break;
+        case .up, .upMirrored:
+            break;
+        @unknown default:
+            break
+        }
+        
+        switch imageOrientation {
+        case .upMirrored, .downMirrored:
+            transform.translatedBy(x: self.size.width, y: 0)
+            transform.scaledBy(x: -1, y: 1)
+            break;
+                
+            case .leftMirrored, .rightMirrored:
+                transform.translatedBy(x: self.size.height, y: 0)
+                transform.scaledBy(x: -1, y: 1)
+                break;
+                
+        case .up, .down, .left, .right:
+            break;
+        @unknown default:
+            break
+        }
+        
+        guard let cgImage = cgImage,
+              let colorSpace = cgImage.colorSpace else {
+            return self
+        }
+
+        let context: CGContext = CGContext(data: nil,
+                                               width: Int(size.width),
+                                               height: Int(size.height),
+                                               bitsPerComponent: cgImage.bitsPerComponent,
+                                               bytesPerRow: 0,
+                                               space: colorSpace,
+                                               bitmapInfo: cgImage.bitmapInfo.rawValue)!
+                                       
+        context.concatenate(transform);
+        
+        switch (self.imageOrientation) {
+        case .left, .leftMirrored, .right, .rightMirrored:
+            context.draw(self.cgImage!, in: CGRect(x: 0, y: 0, width: self.size.height, height: self.size.width))
+            break;
+        default:
+            context.draw(self.cgImage!, in: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height))
+            break;
+        }
+        
+        // And now we just create a new UIImage from the drawing context
+        let cgimg: CGImage = context.makeImage()!
+        let img: UIImage = UIImage(cgImage: cgimg)
+        return img;
+    }
+    
+    
+    func compress(to fileSize: Int) -> Data{
+        var compression: CGFloat = 1.0
+        var imageData = self.jpegData(compressionQuality: compression)!
+        //每次减少的比例
+        let scale: CGFloat = 0.1;
+        
+        //循环条件：没到最小压缩比例，且没压缩到目标大小
+        while (compression > 0) && (imageData.count > fileSize) {
+            compression -= scale;
+            imageData = self.jpegData(compressionQuality: compression)!
+        }
+        return imageData;
+    }
+}
