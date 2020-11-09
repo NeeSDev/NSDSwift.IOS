@@ -9,9 +9,9 @@
 import UIKit
 
 extension UIAlertController: NeeSDevExtended {}
-public extension NeeSDevExtension where ExtendedType: UIAlertController {
+extension NeeSDevExtension where ExtendedType: UIAlertController {
     //MARK: - =========================== quick shower ===========================
-    static func showAlert<kindofViewController: UIViewController>(_ title: String?,
+    public static func showAlert<kindofViewController: UIViewController>(_ title: String?,
                                                                         message: String?,
                                                                         target: kindofViewController?,
                                                                         confirmText: String? = "确定",
@@ -26,7 +26,7 @@ public extension NeeSDevExtension where ExtendedType: UIAlertController {
         }
     }
     
-    static func showAlert<kindofViewController: UIViewController>(_ title: String?,
+    public static func showAlert<kindofViewController: UIViewController>(_ title: String?,
                                                                         message: String?,
                                                                         target: kindofViewController?,
                                                                         cancel: String? = "取消",

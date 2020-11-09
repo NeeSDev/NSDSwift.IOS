@@ -14,7 +14,7 @@ target 'Swift.IOS.Example' do
   pod 'TangramKit', '~> 1.4.2'
    
   # 
-  pod 'ReactiveCocoa', '~> 10.2.0'
+  pod 'ReactiveSwfit'
   
   # web image
   pod 'AlamofireImage', '~> 4.1.0'
