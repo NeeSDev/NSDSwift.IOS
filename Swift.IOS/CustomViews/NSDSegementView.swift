@@ -48,7 +48,7 @@ public class NSDSegementView: TGRelativeLayout {
     private var selectFlagView = UIView()
     private var selectFlagWidth:CGFloat = -1
 
-    init(titles: [String], titleWidthOffset: CGFloat, subTitles: [String] = []) {
+    public init(titles: [String], titleWidthOffset: CGFloat, subTitles: [String] = []) {
         super.init(frame: .zero)
         self.titleWidthOffset = titleWidthOffset
         
@@ -62,7 +62,7 @@ public class NSDSegementView: TGRelativeLayout {
         }
     }
     
-    init(titles: [String], titleWidth: CGFloat, subTitles: [String] = []) {
+    public init(titles: [String], titleWidth: CGFloat, subTitles: [String] = []) {
         super.init(frame: .zero)
         self.titleWidth = titleWidth
         
@@ -76,13 +76,13 @@ public class NSDSegementView: TGRelativeLayout {
         }
     }
     
-    func update(titles: [String], subTitles: [String] = []) {
+    public func update(titles: [String], subTitles: [String] = []) {
         self.subTitles = subTitles
         self.titles = titles
         resetTitles()
     }
     
-    init(titles: [String], subTitles: [String] = []) {
+    public init(titles: [String], subTitles: [String] = []) {
         super.init(frame: .zero)
         
         if 0 < subTitles.count, titles.count == subTitles.count {
@@ -408,7 +408,7 @@ public class NSDSegementScrollView: TGLinearLayout {
 extension NSDSegementScrollView {
     
     /// UI 布局
-    public func uiMaker() {
+    func uiMaker() {
         headerView.tg_left.equal(0)
         headerView.tg_right.equal(0)
         headerView.tg_height.equal(45)
@@ -435,7 +435,7 @@ extension NSDSegementScrollView {
     }
     
     //UI 逻辑（可分离时分离）
-    public func uiLogicMaker() {
+    func uiLogicMaker() {
         headerView.setRelativeScrollView(scrollView)
 
         headerView.setSelectBlock { [weak self] (index) in
