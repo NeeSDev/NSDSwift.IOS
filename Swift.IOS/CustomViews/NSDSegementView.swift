@@ -303,7 +303,7 @@ public extension NSDSegementView {
 
 extension NSDSegementView: UIScrollViewDelegate {
     
-    func setRelativeScrollView(_ relativeScrollView:UIScrollView) {
+    public func setRelativeScrollView(_ relativeScrollView:UIScrollView) {
         scrollView = relativeScrollView
         scrollView?.delegate = self
     }
