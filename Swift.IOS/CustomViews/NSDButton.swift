@@ -47,12 +47,12 @@ public class NSDButton: UIView {
     public var touchCancelBlock: (NSDButton)->Void = {_ in }
     public var touchDownBlock: (NSDButton)->Void = {_ in }
     
-    private weak  var touchDownTarget:NSObjectProtocol! = nil
-    private weak  var touchUpInsideTarget:NSObjectProtocol! = nil
-    private weak  var touchCancelTarget:NSObjectProtocol! = nil
-    private var touchDownAction:Selector! = nil
-    private var touchUpInsideAction:Selector! = nil
-    private var touchCancelAction:Selector! = nil
+    private weak  var touchDownTarget:NSObjectProtocol? = nil
+    private weak  var touchUpInsideTarget:NSObjectProtocol? = nil
+    private weak  var touchCancelTarget:NSObjectProtocol? = nil
+    private var touchDownAction:Selector? = nil
+    private var touchUpInsideAction:Selector? = nil
+    private var touchCancelAction:Selector? = nil
     
     private var _isSelected: Bool = false
     public var isSelected: Bool {
